@@ -23,7 +23,7 @@ public class AuthorityDaoImpl extends BaseDao<Authority> implements AuthorityDao
 
 	@Override
 	public List<Authority> queryByParentIdAndRole(Short role) {
-		SQLQuery query = getSession().createSQLQuery("select a.* from authority a,role_authority ra where a.id = ra.authority_id and a.parent_id is null and ra.role = ?");
+		SQLQuery query = getSession().createSQLQuery("select a.* from authority a,role_authority ra where concat(a.id) = ra.authority_id and a.parent_id is null and ra.role = ?");
 		query.setParameter(0, role);
 		query.addEntity(Authority.class);
 		return query.list();
@@ -31,7 +31,7 @@ public class AuthorityDaoImpl extends BaseDao<Authority> implements AuthorityDao
 
 	@Override
 	public List<Authority> queryChildrenByParentIdAndRole(Long parentId, Short role) {
-		SQLQuery query = getSession().createSQLQuery("select a.* from authority a,role_authority ra where a.id = ra.authority_id and a.parent_id = ? and ra.role = ?");
+		SQLQuery query = getSession().createSQLQuery("select a.* from authority a,role_authority ra where concat(a.id) = ra.authority_id and a.parent_id = ? and ra.role = ?");
 		query.setParameter(0, parentId);
 		query.setParameter(1, role);
 		query.addEntity(Authority.class);
